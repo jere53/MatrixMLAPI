@@ -27,12 +27,6 @@ public class AvatarServerState : NetworkBehaviour
         NetworkRotationY.Value = initRotationY;
     }
     
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -56,5 +50,17 @@ public class AvatarServerState : NetworkBehaviour
     public void JumpAvatarServerRpc()
     {
         GetComponent<Rigidbody>().AddForce(new Vector3(0f, 2f, 0f), ForceMode.Impulse);
+    }
+
+    [ServerRpc]
+    public void ActivateFlightServerRpc()
+    {
+        GetComponent<Rigidbody>().useGravity = false;
+    }
+
+    [ServerRpc]
+    public void DeactivateFlightServerRpc()
+    {
+        GetComponent<Rigidbody>().useGravity = true;
     }
 }

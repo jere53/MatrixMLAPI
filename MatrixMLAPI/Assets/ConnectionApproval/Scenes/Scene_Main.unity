@@ -1962,10 +1962,13 @@ MonoBehaviour:
     RegisteredScenes:
     - Scene_Main
     - 
+    - SampleScene
     AllowRuntimeSceneChanges: 0
     NetworkPrefabs:
     - Prefab: {fileID: 1056043210162344977, guid: cc1e4eaf6e97f7e48b235739f2f2ab8f, type: 3}
       PlayerPrefab: 1
+    - Prefab: {fileID: 1056043210162344977, guid: 84a19678d1b41ac488d76135e03ace32, type: 3}
+      PlayerPrefab: 0
     PlayerPrefabHash:
       id: 0
     CreatePlayerPrefab: 1

@@ -167,14 +167,14 @@ GameObject:
   - component: {fileID: 426717270564196011}
   - component: {fileID: 3955068572590821674}
   - component: {fileID: 919132148850709678}
-  - component: {fileID: 8578288835522255460}
   - component: {fileID: 5005309123842121968}
+  - component: {fileID: 768296899398293421}
   - component: {fileID: 8472814733971108023}
   - component: {fileID: 6149109451066952454}
   - component: {fileID: 4416193453901110605}
-  - component: {fileID: 8658784611074617015}
+  - component: {fileID: 4599241829545488442}
   m_Layer: 0
-  m_Name: Player
+  m_Name: PlayerNeo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -211,8 +211,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NetworkInstanceId: 0
-  PrefabHash: 1897319656204293034
-  PrefabHashGenerator: Player
+  PrefabHash: 3409318202459788928
+  PrefabHashGenerator: PlayerNeo
   AlwaysReplicateAsRoot: 0
   DontDestroyWithOwner: 0
 --- !u!95 &919132148850709678
@@ -234,18 +234,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &8578288835522255460
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1056043210162344977}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7887a31a52875ff4e875b8ebdb253acf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &5005309123842121968
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,6 +244,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f770341caa39a504f81bef4944689922, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &768296899398293421
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1056043210162344977}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25ce5fa8df4654d4296bc8b514e066a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &8472814733971108023
@@ -300,7 +300,7 @@ CapsuleCollider:
   m_Height: 1.8487878
   m_Direction: 1
   m_Center: {x: 0, y: 0.90126824, z: 0}
---- !u!114 &8658784611074617015
+--- !u!114 &4599241829545488442
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -309,7 +309,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1056043210162344977}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee567edd03ebb654287e96ebfda6136d, type: 3}
+  m_Script: {fileID: 11500000, guid: 33705b91f91ba3847ac40503b45da862, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1221541072905100973
