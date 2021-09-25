@@ -8,11 +8,18 @@ public class AccionesNeo : Acciones
 
     public void ActivateFlight()
     {
+        Debug.Log(AvatarServerState.isFlying.Value);
         AvatarServerState.ActivateFlightServerRpc();
     }
 
     public void DeactivateFlight()
     {
+        Debug.Log(AvatarServerState.isFlying.Value);
         AvatarServerState.DeactivateFlightServerRpc();
+    }
+
+    public void Volar(float z)
+    {
+        AvatarServerState.VolarServerRpc(z);
     }
 }
