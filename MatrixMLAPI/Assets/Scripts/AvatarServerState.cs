@@ -17,9 +17,13 @@ public class AvatarServerState : NetworkBehaviour
 
     public NetworkVariableFloat AxisX { get; } = new NetworkVariableFloat();
 
+    public NetworkVariableFloat AxisZ { get; } = new NetworkVariableFloat();
+
     public NetworkVariableFloat MouseX { get; } = new NetworkVariableFloat();
     
     public NetworkVariableFloat Speed { get; } = new NetworkVariableFloat(2.0f);
+
+    public NetworkVariableBool isFlying { get; } = new NetworkVariableBool();
     
     public void InitNetworkPositionAndRotationY(Vector3 initPosition, float initRotationY)
     {
@@ -27,12 +31,6 @@ public class AvatarServerState : NetworkBehaviour
         NetworkRotationY.Value = initRotationY;
     }
     
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -41,6 +39,8 @@ public class AvatarServerState : NetworkBehaviour
         {
             transform.position = NetworkPosition.Value;
             transform.rotation = Quaternion.Euler(0, NetworkRotationY.Value, 0);
+            GetComponent<Animator>().SetFloat("VelY", AxisY.Value);
+            //GetComponent<Animator>().SetFloat("VelX", MouseX.Value);
         }
     }
     
@@ -55,6 +55,35 @@ public class AvatarServerState : NetworkBehaviour
     [ServerRpc]
     public void JumpAvatarServerRpc()
     {
-        GetComponent<Rigidbody>().AddForce(new Vector3(0f, 2f, 0f), ForceMode.Impulse);
+        if (isFlying.Value != true)
+            GetComponent<Rigidbody>().AddForce(new Vector3(0f, 2f, 0f), ForceMode.Impulse);
     }
+
+    [ServerRpc]
+    public void ActivateFlightServerRpc()
+    {
+        Debug.Log("holaaa");
+        isFlying.Value = true;
+        GetComponent<Rigidbody>().useGravity = false;
+    }
+
+    [ServerRpc]
+    public void DeactivateFlightServerRpc()
+    {
+        isFlying.Value = false;
+        GetComponent<Rigidbody>().useGravity = true;
+    }
+
+    [ServerRpc]
+    public void VolarServerRpc(float z)
+    {
+        if (isFlying.Value)
+        {
+            AxisZ.Value = z;
+            Debug.Log(z);
+        }
+        else
+            AxisZ.Value = 0.0f;
+    }
+
 }
