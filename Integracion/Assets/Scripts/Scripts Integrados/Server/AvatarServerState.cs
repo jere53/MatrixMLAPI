@@ -26,7 +26,7 @@ public class AvatarServerState : NetworkBehaviour
 
     public NetworkVariableBool isFlying { get; } = new NetworkVariableBool();
 
-    //private Animator _animator;
+    private Animator _animator;
     public void InitNetworkPositionAndRotationY(Vector3 initPosition, float initRotationY)
     {
         NetworkPosition.Value = initPosition;
@@ -35,7 +35,7 @@ public class AvatarServerState : NetworkBehaviour
 
     private void Start()
     {
-        //_animator = GetComponent<Animator>();
+        _animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -46,7 +46,7 @@ public class AvatarServerState : NetworkBehaviour
         {
             transform.position = NetworkPosition.Value;
             transform.rotation = Quaternion.Euler(0, NetworkRotationY.Value, 0);
-            //_animator.SetFloat("VelY", AxisY.Value);
+            _animator.SetFloat("VelY", AxisY.Value);
             //GetComponent<Animator>().SetFloat("VelX", MouseX.Value);
         }
     }
