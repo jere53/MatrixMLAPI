@@ -43,7 +43,7 @@ public class AgentController : AvatarController
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            m_AccionesAgente.JumpAgente();
+            m_AccionesAgente.Jump();
         }
         //probar en fixed update porque a veces desactiva el collider y otras veces no
         if (Input.GetKey(KeyCode.Q))

@@ -13,7 +13,7 @@ public class ServerMovement : NetworkBehaviour
 
     private AvatarServerState m_AvatarServerState;
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
         m_Rigidbody = GetComponent<Rigidbody>();
         m_AvatarServerState = GetComponent<AvatarServerState>();
@@ -29,6 +29,8 @@ public class ServerMovement : NetworkBehaviour
             return;
         }
         
+        m_Rigidbody = GetComponent<Rigidbody>();
+        m_AvatarServerState = GetComponent<AvatarServerState>();
         m_AvatarServerState.InitNetworkPositionAndRotationY(transform.position, transform.rotation.eulerAngles.y);
     }
 

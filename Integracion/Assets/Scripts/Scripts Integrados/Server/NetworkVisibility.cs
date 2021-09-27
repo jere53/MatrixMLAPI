@@ -8,10 +8,6 @@ using UnityEngine;
 
 public class NetworkVisibility : NetworkBehaviour
 {
-    private void Start()
-    {
- 
-    }
 
     private void FixedUpdate()
     {
