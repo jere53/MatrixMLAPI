@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AccionesNeo : Acciones
+public class AccionesNeo : AccionesAgente
 {
     // Mismo start que el padre.
 

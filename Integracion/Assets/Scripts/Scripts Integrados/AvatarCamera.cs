@@ -7,9 +7,7 @@ using UnityEngine;
 public class AvatarCamera : NetworkBehaviour
 {
     public GameObject cameraMountPoint;
-
-    private Rigidbody avatarBody;
-
+    
     private float xRot = 0f;
     
     // Start is called before the first frame update
