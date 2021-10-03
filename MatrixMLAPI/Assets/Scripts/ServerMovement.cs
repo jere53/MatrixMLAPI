@@ -46,7 +46,8 @@ public class ServerMovement : NetworkBehaviour
         //la direccion en la que nos queremos mover. La input horizontal dice si nos movemos a la derecha, y la vertical
         //si nos movemos hacia adelante.
         Vector3 movement = transform.right * m_AvatarServerState.AxisX.Value + 
-                           transform.forward * m_AvatarServerState.AxisY.Value;
+                           transform.forward * m_AvatarServerState.AxisY.Value +
+                           transform.up * m_AvatarServerState.AxisZ.Value;
 
         //multiplicamos la direccion de movimiento por la velocidad (en m/s, para eso multiplicamos por T.fdt)
         m_Rigidbody.MovePosition(m_Rigidbody.position + movement * (m_AvatarServerState.Speed.Value * Time.fixedDeltaTime));

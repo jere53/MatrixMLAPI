@@ -17,22 +17,35 @@ public class AvatarServerState : NetworkBehaviour
 
     public NetworkVariableFloat AxisX { get; } = new NetworkVariableFloat();
 
+    public NetworkVariableFloat AxisZ { get; } = new NetworkVariableFloat();
+
     public NetworkVariableFloat MouseX { get; } = new NetworkVariableFloat();
     
     public NetworkVariableFloat Speed { get; } = new NetworkVariableFloat(2.0f);
+
+    public NetworkVariableBool isFlying { get; } = new NetworkVariableBool();
+
+    public NetworkVariableBool MoveHead { get; } = new NetworkVariableBool();
+
+    public NetworkVariableBool Stretch { get; } = new NetworkVariableBool();
     
+    public NetworkVariableBool StretchBack { get; } = new NetworkVariableBool();
+    
+    public NetworkVariableBool isJump { get; } = new NetworkVariableBool();
+    
+    private Animator anim;
+
+    void Start()
+    {
+        anim = GetComponent<Animator>();
+    }
+
     public void InitNetworkPositionAndRotationY(Vector3 initPosition, float initRotationY)
     {
         NetworkPosition.Value = initPosition;
         NetworkRotationY.Value = initRotationY;
     }
     
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -41,9 +54,30 @@ public class AvatarServerState : NetworkBehaviour
         {
             transform.position = NetworkPosition.Value;
             transform.rotation = Quaternion.Euler(0, NetworkRotationY.Value, 0);
+            anim.SetFloat("VelY", AxisY.Value);
+            //anim.SetFloat("VelX", MouseX.Value);
+            if (isFlying.Value)
+                anim.SetBool("Volando", true);
+            else
+                anim.SetBool("Volando", false);
+
+            if (MoveHead.Value)
+                anim.SetTrigger("AgarrarCabeza");
+            
+            if (Stretch.Value)
+                anim.SetTrigger("EstirarBrazos");
+
+            //if (isJump.Value)
+            //{
+             //   anim.SetBool("Saltando", true);
+               // GetComponent<Rigidbody>().AddForce(new Vector3(0f, 3f, 0f), ForceMode.Impulse);
+            //}
+
+            if (StretchBack.Value)
+                anim.SetTrigger("EstirarEspalda");
         }
     }
-    
+
     [ServerRpc]
     public void MoveAvatarServerRpc(float x, float y, float mouseX)
     {
@@ -55,6 +89,86 @@ public class AvatarServerState : NetworkBehaviour
     [ServerRpc]
     public void JumpAvatarServerRpc()
     {
-        GetComponent<Rigidbody>().AddForce(new Vector3(0f, 2f, 0f), ForceMode.Impulse);
+        //if (isFlying.Value != true)
+        //{   
+        //GetComponent<Rigidbody>().AddForce(new Vector3(0f, 3f, 0f), ForceMode.Impulse);
+            isJump.Value = true;
+        //}
+        
     }
+    
+    [ServerRpc]
+    public void NotJumpAvatarServerRpc()
+    {
+        isJump.Value = false;
+    }
+    
+    [ServerRpc]
+    public void HeadAvatarServerRpc()
+    {
+        MoveHead.Value = true;
+        
+    }
+
+    [ServerRpc]
+    public void NotHeadAvatarServerRpc()
+    {
+        MoveHead.Value = false;
+    }
+
+    [ServerRpc]
+    public void StretchAvatarServerRpc()
+    {
+        Stretch.Value = true;
+
+    }
+
+    [ServerRpc]
+    public void NotStretchAvatarServerRpc()
+    {
+        Stretch.Value = false; 
+    }
+    
+    [ServerRpc]
+    public void StretchBackAvatarServerRpc()
+    {
+        StretchBack.Value = true;
+
+    }
+
+    [ServerRpc]
+    public void NotStretchBackAvatarServerRpc()
+    {
+        StretchBack.Value = false; 
+    }
+
+    [ServerRpc]
+    public void ActivateFlightServerRpc()
+    {
+        Debug.Log("holaaa");
+        isFlying.Value = true;
+        GetComponent<Rigidbody>().useGravity = false;
+    }
+
+    [ServerRpc]
+    public void DeactivateFlightServerRpc()
+    {
+        isFlying.Value = false;
+        GetComponent<Rigidbody>().useGravity = true;
+    }
+
+    [ServerRpc]
+    public void VolarServerRpc(float z)
+    {
+        if (isFlying.Value)
+        {
+            AxisZ.Value = z;
+            Debug.Log(z);
+        }
+        else
+        {
+            AxisZ.Value = 0.0f;
+        }
+    }
+
 }

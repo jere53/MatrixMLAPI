@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 2138677392}
-  m_IndirectSpecularColor: {r: 0.56517595, g: 0.63498414, b: 0.71658856, a: 1}
+  m_IndirectSpecularColor: {r: 0.5651759, g: 0.6349838, b: 0.716588, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1964,7 +1964,7 @@ MonoBehaviour:
     - 
     AllowRuntimeSceneChanges: 0
     NetworkPrefabs:
-    - Prefab: {fileID: 1056043210162344977, guid: cc1e4eaf6e97f7e48b235739f2f2ab8f, type: 3}
+    - Prefab: {fileID: 7403966635570387285, guid: 119cc365720082644a779c4e1e1cbffb, type: 3}
       PlayerPrefab: 1
     PlayerPrefabHash:
       id: 0
@@ -1995,7 +1995,7 @@ MonoBehaviour:
     00000000:
       type: {class: NullableBoolSerializable, ns: MLAPI.Configuration, asm: Unity.Multiplayer.MLAPI.Runtime}
       data:
-        Value: 1897319656204293034
+        Value: 13052328347879338412
 --- !u!4 &1750276925
 Transform:
   m_ObjectHideFlags: 0
@@ -2455,7 +2455,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 2.9725747e+36, z: 4.5905e-41, w: 4.9385432e-23}
+  m_BoundingSphereOverride: {x: 1, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -2468,7 +2468,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2138677391}
   m_LocalRotation: {x: 0.24593207, y: -0.4420816, z: 0.21943985, w: 0.8342226}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.86, y: -0.25, z: -1.41}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
