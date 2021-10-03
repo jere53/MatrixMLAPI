@@ -41,10 +41,40 @@ public class HumanController : AvatarController
         float mouseX = Input.GetAxis("Mouse X") * 100f * Time.deltaTime; //rotacion. 100f es la sensibilidad del mouse
         
         m_Acciones.Move(x, y, mouseX);
-        
-        if (Input.GetKeyDown(KeyCode.Space))
+
+        if (Input.GetKeyDown(KeyCode.Space)) //saltar
         {
             m_Acciones.Jump();
+        }
+
+        if (Input.GetKeyDown(KeyCode.L)) //activa mover la cabeza
+        {
+            m_Acciones.Head();
+        }
+        
+        if (Input.GetKeyDown(KeyCode.K)) //
+        {
+            m_Acciones.NotHead();
+        }
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            m_Acciones.Stretch(); //Estirar brazos
+        }
+
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            m_Acciones.NotStretch(); //
+        }
+
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            m_Acciones.StretchBack(); //Estirar espalda
+        }
+
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            m_Acciones.NotStretchBack(); //
         }
     }
 }
