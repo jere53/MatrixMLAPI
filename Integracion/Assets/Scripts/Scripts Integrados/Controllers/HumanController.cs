@@ -46,5 +46,29 @@ public class HumanController : AvatarController
         {
             m_Acciones.Jump();
         }
+
+        if (Input.GetMouseButtonDown(0)) //si hace click izquierdo
+        {
+            m_Acciones.Disparar();
+        }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            m_Acciones.Agarrar();
+        }
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            m_Acciones.ToggleApuntarArma();
+        }
+
+        if (Input.GetKeyDown(KeyCode.H)){
+            m_Acciones.TalkToBot();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape)){
+            m_Acciones.StopTalk();
+        }
+
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using MLAPI;
@@ -26,5 +27,27 @@ public class Acciones : NetworkBehaviour
     {
         AvatarServerState.JumpAvatarServerRpc();
     }
-    
+
+    public void Disparar()
+    {
+        AvatarServerState.DispararServerRpc();
+    }
+
+    public void Agarrar()
+    {
+        AvatarServerState.AgarrarServerRpc();
+    }
+
+    public void ToggleApuntarArma()
+    {
+        AvatarServerState.ToggleApuntarArmaServerRpc();
+    }
+
+    public void TalkToBot(){
+        AvatarServerState.TalkToBotServerRPC(NetworkManager.LocalClientId);
+    }
+
+    public void StopTalk(){
+        AvatarServerState.StopTalkServerRpc(NetworkManager.LocalClientId);
+    }
 }

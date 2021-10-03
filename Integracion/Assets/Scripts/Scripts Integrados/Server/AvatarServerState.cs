@@ -10,6 +10,8 @@ public class AvatarServerState : NetworkBehaviour
 //Contiene el estado del avatar en el mundo central, es decir la matrix. Tambien contiene las Client -> Server RPCs
 //que modifican ese estado.
 {
+    public GameObject weaponMountPoint;
+    public GameObject arma;
     public NetworkVariableVector3 NetworkPosition { get; } = new NetworkVariableVector3();
 
     public NetworkVariableFloat NetworkRotationY { get; } = new NetworkVariableFloat();
@@ -26,6 +28,8 @@ public class AvatarServerState : NetworkBehaviour
 
     public NetworkVariableBool isFlying { get; } = new NetworkVariableBool();
 
+    public NetworkVariableBool IsAiming { get; } = new NetworkVariableBool(false);
+
     private Animator _animator;
     public void InitNetworkPositionAndRotationY(Vector3 initPosition, float initRotationY)
     {
@@ -39,7 +43,7 @@ public class AvatarServerState : NetworkBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         //sincronizamos el estado de los objetos en el cliente con el estado de los objetos en el server
         if (IsClient)
@@ -47,7 +51,13 @@ public class AvatarServerState : NetworkBehaviour
             transform.position = NetworkPosition.Value;
             transform.rotation = Quaternion.Euler(0, NetworkRotationY.Value, 0);
             _animator.SetFloat("VelY", AxisY.Value);
+            _animator.SetBool("ApuntadoArma", IsAiming.Value);
             //GetComponent<Animator>().SetFloat("VelX", MouseX.Value);
+        }
+        else
+        {
+            _animator.SetFloat("VelY", AxisY.Value);
+            _animator.SetBool("ApuntadoArma", IsAiming.Value);
         }
     }
     
@@ -64,6 +74,79 @@ public class AvatarServerState : NetworkBehaviour
     {
         if (isFlying.Value != true)
             GetComponent<Rigidbody>().AddForce(new Vector3(0f, 2f, 0f), ForceMode.Impulse);
+    }
+
+    [ServerRpc]
+    public void DispararServerRpc()
+    {
+        if (arma == null) return;
+        arma.GetComponent<Pistola>().Shoot();
+    }
+
+    [ServerRpc]
+    public void AgarrarServerRpc()
+    {
+        //creamos una esfera al rededor del avatar y tomamos un collider correspondiente a una pistola (layer 6)
+
+        var colliders = Physics.OverlapSphere(transform.position, 10f);
+        if (colliders != null)
+        {
+            foreach (var c in colliders)
+            {
+                if (c.gameObject.CompareTag("Pistola"))
+                {
+                    arma = c.gameObject;
+                    break;
+                }
+            }
+        } else return;
+        
+        if (arma == null) return;
+        //llevamos el arma a la mano del avatar, y hacemos que su transform se vuelva hija de la transform de la mano
+        //asi se mueven juntas.
+        Transform armaTransform = arma.transform;
+        armaTransform.parent = weaponMountPoint.transform;
+        armaTransform.position = weaponMountPoint.transform.position;
+        armaTransform.rotation = weaponMountPoint.transform.rotation;
+    }
+
+    [ServerRpc]
+    public void ToggleApuntarArmaServerRpc()
+    {
+        IsAiming.Value = !IsAiming.Value;
+    }
+    
+    [ServerRpc]
+    public void TalkToBotServerRPC(ulong clientID) {
+        var colliders = Physics.OverlapSphere(transform.position, 5f);
+        if (colliders != null) {
+            foreach (var c in colliders) {
+                if (c.gameObject.CompareTag("Bot")) {
+                    var chatManager = c.gameObject.GetComponent<ChatManager>();
+                    if (chatManager.talkingPartner != 0) return; //ya esta hablando con alguien
+                    chatManager.talkingPartner = clientID; 
+                    ActivateBotUIClientRpc(clientID);
+                    break;
+                }
+            }
+        } else return;
+    }
+
+    [ServerRpc] 
+    public void StopTalkServerRpc(ulong clientID) {
+        var colliders = Physics.OverlapSphere(transform.position, 5f);
+        if (colliders != null) {
+            foreach (var c in colliders) {
+                if (c.gameObject.CompareTag("Bot")) {
+                    var chatManager = c.gameObject.GetComponent<ChatManager>();
+                    if (chatManager.talkingPartner != clientID) return; //esta hablando con alguien mas
+                    chatManager.talkingPartner = 0; 
+                    DeactivateBotUIClientRpc(clientID);
+                    break;
+                }
+            }
+        } else return;
+
     }
 
     [ServerRpc]
@@ -118,4 +201,29 @@ public class AvatarServerState : NetworkBehaviour
         m_Collider.enabled = !m_Collider.enabled;
     }
 
+    [ClientRpc]
+    public void DieClientRpc()
+    {
+        //Nos pegaron un tiro, morimos:
+        _animator.SetTrigger("HitByBullet");
+        GetComponent<AvatarController>().enabled = false;
+    }
+
+    [ClientRpc]
+    public void ActivateBotUIClientRpc(ulong clientID){
+        if (NetworkManager.LocalClientId != clientID) {
+            return;
+        }
+        GameObject botUI = GameObject.Find("----- UI -----/Rasa/BotUI");
+        botUI.GetComponent<BotUI>().UICanvas.SetActive(true);
+    }
+
+    [ClientRpc]
+    public void DeactivateBotUIClientRpc(ulong clientID){
+        if (NetworkManager.LocalClientId != clientID) {
+            return;
+        }
+        GameObject botUI = GameObject.Find("----- UI -----/Rasa/BotUI");
+        botUI.GetComponent<BotUI>().UICanvas.SetActive(false);
+    }
 }
