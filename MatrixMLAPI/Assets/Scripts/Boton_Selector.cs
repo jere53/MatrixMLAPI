@@ -7,6 +7,7 @@ using System;
 public class Boton_Selector : MonoBehaviour
 {
     public int id;
+    public String prefab;
 
     // Start is called before the first frame update
     void Start()
@@ -25,6 +26,8 @@ public class Boton_Selector : MonoBehaviour
         if (entrada == id)
         {
             transform.GetComponent<Image>().color = new Color32(93, 221, 62, 255);
+            transform.parent.GetComponent<Prefab_picked>().picked = prefab;
+;
         }
         else
         {

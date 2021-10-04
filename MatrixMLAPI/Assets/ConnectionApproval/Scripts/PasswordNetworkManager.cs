@@ -8,6 +8,7 @@ namespace DapperDino.UMT.ConnectionApproval
 {
     public class PasswordNetworkManager : MonoBehaviour
     {
+
         [SerializeField] private TMP_InputField passwordInputField;
         [SerializeField] private GameObject passwordEntryUI;
         [SerializeField] private GameObject leaveButton;
@@ -110,7 +111,11 @@ namespace DapperDino.UMT.ConnectionApproval
                     break;
             }
 
-            ulong? prefabHash = NetworkSpawnManager.GetPrefabHashFromGenerator("PlayerNeo");
+            Debug.Log("EL picked:" + transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<Prefab_picked>().picked);
+
+            ulong? prefabHash = NetworkSpawnManager.GetPrefabHashFromGenerator(transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<Prefab_picked>().picked);
+
+            Debug.Log("EL prefab:" + prefabHash);
 
             callback(true, prefabHash, approveConnection, spawnPos, spawnRot);
         }
