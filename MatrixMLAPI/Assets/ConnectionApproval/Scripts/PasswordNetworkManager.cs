@@ -2,6 +2,7 @@ using UnityEngine;
 using MLAPI;
 using TMPro;
 using System.Text;
+using MLAPI.Spawning;
 
 namespace DapperDino.UMT.ConnectionApproval
 {
@@ -109,7 +110,9 @@ namespace DapperDino.UMT.ConnectionApproval
                     break;
             }
 
-            callback(true, null, approveConnection, spawnPos, spawnRot);
+            ulong? prefabHash = NetworkSpawnManager.GetPrefabHashFromGenerator("PlayerNeo");
+
+            callback(true, prefabHash, approveConnection, spawnPos, spawnRot);
         }
     }
 }
